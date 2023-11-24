@@ -79,7 +79,9 @@ public class ClusteringEJBRequestSampler extends AbstractJavaSamplerClient imple
 	 * The application name of the deployed EJBs. This is typically the ear name without the .ear suffix.
 	 * However, the application name could be overridden in the application.xml of the EJB deployment on the server.
 	 */
-	private String appName = "clusterbench-ee10";
+	// ejb:ROOT/clusterbench-ee10-ejb          /RemoteStatefulSBImpl!org.jboss.test.clusterbench.ejb.stateful.RemoteStatefulSB?stateful
+	// clusterbench-ee10/clusterbench-ee10-ejb//RemoteStatefulSBImpl!org.jboss.test.clusterbench.ejb.stateful.RemoteStatefulSB?stateful
+	private String appName = "ROOT";
 
 	/**
 	 * This is the module name of the deployed EJBs on the server. This is typically the jar name of the
