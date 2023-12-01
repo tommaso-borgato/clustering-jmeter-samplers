@@ -79,13 +79,13 @@ public class ClusteringEJBRequestSampler extends AbstractJavaSamplerClient imple
 	 * The application name of the deployed EJBs. This is typically the ear name without the .ear suffix.
 	 * However, the application name could be overridden in the application.xml of the EJB deployment on the server.
 	 */
-	private String appName = "clusterbench-ee10";
+	private String appName = "clusterbench-ee8";
 
 	/**
 	 * This is the module name of the deployed EJBs on the server. This is typically the jar name of the
 	 * EJB deployment, without the .jar suffix, but can be overridden via the ejb-jar.xml.
 	 */
-	private String moduleName = "clusterbench-ee10-ejb";
+	private String moduleName = "clusterbench-ee8-ejb";
 
 	/**
 	 * AS7 allows each deployment to have an (optional) distinct name. We haven't specified a distinct name for
