@@ -12,7 +12,6 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <version.org.wildfly>30.0.0.Final</version.org.wildfly>
         <version.org.apache.jmeter>5.6.2</version.org.apache.jmeter>
         <version.org.jboss.test.clusterbench>5.0.0.Final</version.org.jboss.test.clusterbench>
     </properties>
@@ -20,17 +19,18 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.wildfly</groupId>
+                <!-- org.jboss.eap:wildfly-ejb-client-bom:8.0.0.GA-redhat-00008 -->
+                <groupId>org.jboss.eap</groupId>
                 <artifactId>wildfly-ejb-client-bom</artifactId>
-                <version>${version.org.wildfly}</version>
+                <version>8.0.0.GA-redhat-00008</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
 
             <dependency>
-                <groupId>org.wildfly</groupId>
+                <groupId>org.jboss.eap</groupId>
                 <artifactId>wildfly-standard-ee-bom</artifactId>
-                <version>${version.org.wildfly}</version>
+                <version>8.0.0.GA-redhat-00010</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -101,7 +101,7 @@
 
         <!-- Wildfly client -->
         <dependency>
-            <groupId>org.wildfly</groupId>
+            <groupId>org.jboss.eap</groupId>
             <artifactId>wildfly-client-all</artifactId>
         </dependency>
 
