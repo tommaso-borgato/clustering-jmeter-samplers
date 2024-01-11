@@ -191,7 +191,7 @@ public class NativeClusteringEJBRequestSampler extends AbstractJavaSamplerClient
 
         // set up the EJB identifiers for the bean we invoke on
         EJBModuleIdentifier MODULE_IDENTIFIER = new EJBModuleIdentifier(appName, moduleName, distinctName);
-        EJBIdentifier EJB_IDENTIFIER = new EJBIdentifier(MODULE_IDENTIFIER, RemoteStatefulSB.class.getSimpleName());
+        EJBIdentifier EJB_IDENTIFIER = new EJBIdentifier(MODULE_IDENTIFIER, RemoteStatefulSBImpl.class.getSimpleName());
 
         // Setup the EJBClientContext for this client thread
         EJBClientContext.getContextManager().setThreadDefault(ejbClientContext);
@@ -314,21 +314,25 @@ public class NativeClusteringEJBRequestSampler extends AbstractJavaSamplerClient
         if (first) LOG.info(msg1);
 
         try {
+            LOG.info("Building EJBClientContext");
             EJBClientContext.Builder builder = new EJBClientContext.Builder();
 
             final ClassLoader classloader = NativeClusteringEJBRequestSampler.class.getClassLoader();
             // add in transport proviers found on the classpath (e.g. remote, http)
             final ServiceLoader<EJBTransportProvider> serviceLoader = ServiceLoader.load(EJBTransportProvider.class, classloader);
             Iterator<EJBTransportProvider> iterator = serviceLoader.iterator();
+            LOG.info("Processing transport providers:");
             for (;;) try {
                 if (! iterator.hasNext()) break;
                 final EJBTransportProvider transportProvider = iterator.next();
                 builder.addTransportProvider(transportProvider);
+                LOG.info("Added transport provider: {}", transportProvider.getClass().getName());
             } catch (ServiceConfigurationError ignored) {
                 LOG.error("Failed to load service", ignored);
             }
 
             // add in connections to the hosts defined by HOST:PORT pairs with remote+http protocol
+            LOG.info("Processing configured connections:");
             for (String uriString : getMiscHelpers().getUrlOfHttpRemotingConnector(hosts, ports, threadName).split(",")) {
                 final EJBClientConnection.Builder connBuilder = new EJBClientConnection.Builder();
                 // URISyntaxException
@@ -336,6 +340,7 @@ public class NativeClusteringEJBRequestSampler extends AbstractJavaSamplerClient
                 try {
                     uri = new URI(uriString);
                     connBuilder.setDestination(uri);
+                    LOG.info("Adding configured connection: {}", uri);
                     builder.addClientConnection(connBuilder.build());
                 } catch(URISyntaxException e) {
                     LOG.info("Unable to convert URI {}, skipping", uriString);
